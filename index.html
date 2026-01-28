@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binh Le Thanh Thai - Researcher Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CẤU HÌNH CHUNG --- */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --sidebar-width: 300px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #1d6fa5;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            gap: 40px;
+        }
+
+        /* --- CỘT TRÁI: PROFILE --- */
+        .sidebar {
+            text-align: center;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            padding: 40px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 40px;
+        }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+
+        .role {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .affiliation {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .social-btn {
+            display: block;
+            padding: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #555;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* --- CỘT PHẢI: NỘI DUNG --- */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .section-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+            position: absolute;
+            margin-top: 45px;
+        }
+
+        h3.category-title {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        h3.category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* --- PHẦN TỰ ĐỘNG ĐÁNH SỐ (AUTO NUMBERING) --- */
+        
+        /* 1. Tạo wrapper để reset bộ đếm */
+        .publication-list {
+            counter-reset: paper-idx; /* Khởi tạo biến đếm tên là 'paper-idx' */
+        }
+
+        /* 2. Cấu hình cho từng bài báo */
+        .publication-item {
+            position: relative;
+            padding-left: 40px; /* Chừa khoảng trắng bên trái để đặt số */
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #eee;
+            counter-increment: paper-idx; /* Tăng biến đếm lên 1 */
+        }
+
+        /* 3. Hiển thị số ra màn hình */
+        .publication-item::before {
+            content: "[" counter(paper-idx) "]"; /* Nội dung hiển thị: [1], [2]... */
+            position: absolute;
+            left: 0;
+            top: 0; /* Căn chỉnh vị trí số */
+            font-weight: bold;
+            color: var(--accent-color); /* Màu số giống màu link */
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .publication-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .pub-title {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .pub-authors {
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .pub-venue {
+            font-style: italic;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .highlight-me {
+            font-weight: bold;
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .link-tag {
+            font-size: 0.85rem;
+            background: #eef2f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 5px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .profile-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <aside class="sidebar">
+            <div class="profile-card">
+                <img src="avatar.jpg" alt="Binh Le Thanh Thai" class="avatar">
+                <h1 class="name">Binh Le Thanh Thai</h1>
+                <div class="role">PhD Student</div>
+                <div class="affiliation">
+                    Cyber Security Laboratory<br>
+                    Dept. of Computer Science<br>
+                    National Defense Academy of Japan
+                </div>
+
+                <div class="social-links">
+                    <a href="mailto:binhbe603501@gmail.com" class="social-btn">📧 Email Me</a>
+                    <a href="https://scholar.google.com/citations?user=3cGetoIAAAAJ&hl=en" target="_blank" class="social-btn">🎓 Google Scholar</a>
+                    <a href="https://www.linkedin.com/in/binh-le-thanh-thai-b35143219/" target="_blank" class="social-btn">🔗 LinkedIn</a>
+                    <a href="https://www.researchgate.net/profile/Binh-Le-51" target="_blank" class="social-btn">🔬 ResearchGate</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="content-section">
+                <h2 class="section-header">About Me</h2>
+                <p>
+                    I am a PhD student at National Defense Academy of Japan. I am affiliated with the Cyber Security Laboratory.
+                    My research lies in information security, especially password security.
+                </p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">Publications</h2>
+
+                <h3 class="category-title">Journals</h3>
+                
+                <div class="publication-list">
+
+                    <!-- Japanese passwords -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            Security and Characteristics of Japanese User-created Passwords: A Comprehensive Analysis 
+                            <a href="https://link.springer.com/article/10.1186/s42400-025-00412-2" target="_blank" class="link-tag">PDF/Link</a> */
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">Cybersecurity, Springer, 2026.</div>
+                    </div>
+
+                    <!-- Classifiers -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            Classifying User-created Passwords using Machine Learning and Natural Language Processing Techniques 
+                            <a href="https://www.sciencedirect.com/science/article/pii/S2542660525003683" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span>, Tsubasa Takii, and Hidema Tanaka.</div>
+                        <div class="pub-venue">Internet of Things, Elsevier, 2025.</div>
+                    </div>
+                    
+                    <!-- Markov-based PSMs -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            A Study on Markov-based Password Strength Meters 
+                            <a href="https://ieeexplore.ieee.org/abstract/document/10530976" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">IEEE Access, IEEE, 2024.</div>
+                    </div>
+
+                    <!-- Statistical PSM -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            A Statistical Markov-based Password Strength Meter
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S2542660523003803" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">Internet of Things, Elsevier, 2024.</div>
+                    </div>
+
+                    <!-- Security of VC -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            A Study for Security of Visual Cryptography
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-031-33017-9_17" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">LNCS vol. 13874, Springer, 2023.</div>
+                    </div>
+
+                    <!-- Improved PVC -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            Improved scheme and evaluation method for progressive Visual Cryptography
+                            <a href="https://link.springer.com/article/10.1186/s13635-022-00136-7" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span>, Hidema Tanaka, and Kohtaro Watanabe.</div>
+                        <div class="pub-venue">EURASIP Journal on Information Security, Springer, 2022.</div>
+                    </div>
+
+                    <!-- Novel Metric -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            A Novel Metric for Password Security Risk Against Dictionary Attacks
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-031-25659-2_21" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">LNCS vol. 13720, Springer, 2022.</div>
+                    </div>
+
+                </div> <h3 class="category-title">International Symposiums</h3>
+                
+                <div class="publication-list">
+
+                    <!-- Password classification -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            Password Classification Using Machine Learning and Natural Language Processing Techniques: Methods and Evaluations
+                            <a href="https://ieeexplore.ieee.org/abstract/document/10851759" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span>, Tsubasa Takii, and Hidema Tanaka.</div>
+                        <div class="pub-venue">8th Cyber Security in Networking Conference (CSNet), 2024.</div>
+                    </div>
+
+                    <!-- Analysis -->
+                    <div class="publication-item">
+                        <span class="pub-title">
+                            An analysis of password security risk against dictionary attacks
+                            <a href="https://ieeexplore.ieee.org/document/10683914" target="_blank" class="link-tag">PDF/Link</a>
+                        </span>
+                        <div class="pub-authors"><span class="highlight-me">Binh Le Thanh Thai</span> and Hidema Tanaka.</div>
+                        <div class="pub-venue">International Symposium on Information Theory and Its Applications (ISITA), 2022.</div>
+                    </div>
+
+                </div> </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
